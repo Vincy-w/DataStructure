@@ -151,8 +151,64 @@ void DelRepeat(SqList& L) {
 */
 SqList MergeList(SqList La, SqList Lb) {
 	SqList Lc;
+	int c = 0;
 	int a=0, b=0;
 	while (a < La.length && b < Lb.length) {
-		
+		if (La.data[a] < Lb.data[b]) {
+			Lc.data[c++] = La.data[a++];
+		}
+		else {
+			Lc.data[c++] = Lb.data[b++];
+		}
 	}
+	while (a < La.length) {
+		Lc.data[c++] = La.data[a++];
+	}
+	while (b < Lb.length) {
+		Lc.data[c++] = Lb.data[b++];
+	}
+	Lc.length = c;
+	return Lc;
+}
+
+/**
+* p18-2.08 已知在一维数组A[m+n]中依次存放两个线性表(a1,...,am)和(b1,...,bn)。
+* 编写一个函数，将数组中两个顺序表的位置互换，即将(b1,...,bn)放在(a1,...,am)的前面。
+*/
+
+/**
+* p18-2.09 线性表(a1,...,an)中的元素递增有序且按顺序存储于计算机内。
+* 要求设计一个算法，完成用最少时间在表中查找数值为x的元素，
+* 若找到，则将其与后续元素位置相交换，
+* 若找不到，则将其插入表中并使表中元素仍递增有序。
+*/
+void FindX(SqList& L,ElemType x) {
+	int low = 0, high = L.length - 1, mid;
+	while (low <= high) {
+		mid = (low + high) / 2;
+		if (L.data[mid] == x)break;
+		if (L.data[mid] < x)low = mid + 1;
+		else high = mid - 1;
+	}
+	if (L.data[mid] == x && mid != L.length - 1) {
+		L.data[mid] = L.data[mid + 1];
+		L.data[mid + 1] = x;
+	}
+	if (low > high) {
+		for (int i = ++L.length - 1; i > high+1; i--) {
+			L.data[i] = L.data[i - 1];
+			L.data[i - 1] = x;
+		}
+	}
+}
+
+/**
+* p18-2.10 设将n(n>1)个整数存放到一维数组R中。
+* 设计一个在时间和空间两方面都尽可能高效的算法。
+* 将R中保存的序列循环左移p(0<p<n)个位置，
+* 即将R中的数据由（X0,X1,...,Xn-1）变换为（Xp,Xp+1,...,Xn-1,X0,X1,...,Xp-1）。
+*/
+//算法思想：将X0-Xp-1保存到一个数组中，将Xp-Xn-1前移，将X0-Xp-1复制到末尾
+void LeftMove(SqList& L, int p) {
+
 }

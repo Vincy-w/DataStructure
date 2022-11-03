@@ -17,3 +17,5 @@ void DelSToT(SqList& L, ElemType s, ElemType t);//从有序顺序表中删除其值在给定值
 void DelSAndT(SqList& L, int s, int t);//删除其值在给定值s与t之间（包含st,要求s<t）的所有元素
 void DelRepeat(SqList& L);//删除所有其值重复的元素
 SqList MergeList(SqList La, SqList Lb);//将两个有序顺序表合并
+void FindX(SqList& L, ElemType x);//查找数值为x的元素
+void LeftMove(SqList& L, int p);//将R中保存的序列循环左移p(0<p<n)个位置

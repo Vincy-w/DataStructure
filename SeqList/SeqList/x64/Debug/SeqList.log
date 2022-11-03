@@ -1,3 +1,3 @@
 ﻿  SqTest.cpp
-E:\DataStructure\SeqList\SeqList\SqList.h(1,1): warning C4828: 文件包含在偏移 0x28e 处开始的字符，该字符在当前源字符集中无效(代码页 936)。
+E:\DataStructure\SeqList\SeqList\SqList.h(1,1): warning C4828: 文件包含在偏移 0x304 处开始的字符，该字符在当前源字符集中无效(代码页 936)。
   SeqList.vcxproj -> E:\DataStructure\SeqList\x64\Debug\SeqList.exe

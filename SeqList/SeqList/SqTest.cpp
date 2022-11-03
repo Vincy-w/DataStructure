@@ -12,12 +12,17 @@ int main() {
 	//PrintList(L);
 	//DelX(L, 2);
 	//PrintList(L);
-	int b[] = { 1,1,3,3,3,5,7,8,8,9,12 };
-	SqList Lb;
+	int b[] = { 1,2,3,4,5,7,8,9,12 };
+	int a[] = { 0 };
+	SqList La,Lb;
 	CreatList(Lb, b, sizeof(b) / sizeof(b[0]));
+	CreatList(La, a, sizeof(a) / sizeof(a[0]));
+	FindX(Lb, 0);
+	PrintList(Lb);
 	//DelSToT(Lb, 3, 6);
 	//DelSAndT(Lb, 10, 1);
-	DelRepeat(Lb);
-	PrintList(Lb);
+	//DelRepeat(Lb);
+	//SqList Lc = MergeList(La, Lb);
+	//PrintList(Lc);
 	return 0;
 }
