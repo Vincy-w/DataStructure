@@ -144,6 +144,8 @@
 
 **p18-2.08** 已知在一维数组A[m+n]中依次存放两个线性表(a1,...,am)和(b1,...,bn)。编写一个函数，将数组中两个顺序表的位置互换，即将(b1,...,bn)放在(a1,...,am)的前面。
 
+//先将整个线性表逆序，（bn...a1），再分别将b...和a...逆序
+
 
 
 **p18-2.09** 线性表(a1,...,an)中的元素递增有序且按顺序存储于计算机内。要求设计一个算法，完成用最少时间在表中查找数值为x的元素，若找到，则将其与后续元素位置相交换，若找不到，则将其插入表中并使表中元素仍递增有序。
@@ -168,4 +170,100 @@
 	}
 }`
 
-p18-2.10 设将n(n>1)个整数存放到一维数组R中。设计一个在时间和空间两方面都尽可能高效的算法。将R中保存的序列循环左移p(0<p<n)个位置，即将R中的数据由（X0,X1,...,Xn-1）变换为（Xp,Xp+1,...,Xn-1,X0,X1,...,Xp-1）。
+**p18-2.10** 设将n(n>1)个整数存放到一维数组R中。设计一个在时间和空间两方面都尽可能高效的算法。将R中保存的序列循环左移p(0<p<n)个位置，即将R中的数据由（X0,X1,...,Xn-1）变换为（Xp,Xp+1,...,Xn-1,X0,X1,...,Xp-1）。
+
+`void Reverse(SqList& L, int from, int to) {
+	int temp;
+	for (int i = 0; i < (to - from + 1) / 2; i++) {
+		temp = L.data[from + i];
+		L.data[from + i] = L.data[to - i];
+		L.data[to - i] = temp;
+	}
+}
+void LeftMove(SqList& L, int p) {
+	Reverse(L, 0, p - 1);
+	Reverse(L, p, L.length - 1);
+	Reverse(L, 0, L.length - 1);
+}`
+
+**p18-2.11** 一个长度为L(L>=1)的升序序列S，处在第L/2（向上取整）个位置的数称为S的中位数。如，序列S1=（11，13，15，17，19），则S1的中位数是15，两个序列的中位数是含它们所有元素的升序序列的中位数。如，S2=（2，4，6，8，20），则S1和S2的中位数是11.现有两等长序列，试设计高效算法，找出两序列A和B的中位数。
+
+`int M_Search(SqList& A, SqList& B) {
+	int s1 = 0, d1 = A.length-1, m1, s2 = 0, d2 = A.length-1, m2;
+	while (s1 != d1 || s2 != d2) {
+		m1 = (s1 + d1) / 2;
+		m2 = (s2 + d2) / 2;
+		if (A.data[m1] == B.data[m2])
+			return A.data[m1];
+		if (A.data[m1] < B.data[m2]) {
+			if ((s1 + d1) % 2 == 0) {
+				s1 = m1;
+				d2 = m2;
+			}
+			else {
+				s1 = m1 + 1;
+				d2 = m2;
+			}
+		}
+		else {
+			if ((s2 + d2) % 2 == 0) {
+				d1 = m1;
+				s2 = m2;
+			}
+			else {
+				d1 = m1;
+				s2 = m2 + 1;
+			}
+		}
+	}
+	return A.data[s1] < B.data[s2] ? A.data[s1] : B.data[s2];
+}`
+
+**p18-2.12** 已知一整数序列A=(a0,a1...an-1)，其中0<=ai<n，若存在ap1=ap2=...=apm=x且m>n/2，则称x为A的主元素，例如A=（0，5，5，3，5，7，5，5），则5为主元素；又如A=（0，5，5，3，5，1，5，7），则A中没有主元素。假设A中的n个元素保存在一个一维数组中，请设计一高效算法，找出A的主元素，否则输出-1。
+
+`int Majority(SqList& A) {
+	int c=A.data[0], count = 1;
+	for (int i = 1; i < A.length; i++) {
+		if (A.data[i] == c)
+			count++;
+		else if (count > 0)
+			count--;
+		else {
+			c = A.data[i];
+			count = 1;
+		}
+	}
+	if (count > 0) {
+		for (int i = count = 0; i < A.length; i++) {
+			if (A.data[i] == c)
+				count++;
+		}
+	}
+	if (count > A.length / 2) return c;
+	else return -1;
+}`
+
+**p19-2.13** 给定一个含n(n>=1)个整数的数组，请设计一个在时间上尽可能高效的算法，找出数组中未出现的最小正整数。如，数组{-5，3，2，3}中未出现的最小正整数是1；数组{1，2，3}中未出现的最小正整数是4。
+
+`int findPosMin(SqList& A) {
+	int *b=new int[A.length];
+	for (int i = 0; i < A.length; i++)
+		b[i] = 0;
+	for (int i = 0; i < A.length; i++) {
+		if (A.data[i] > 0 && A.data[i] <= A.length)
+			b[A.data[i] - 1]++;
+	}
+	for (int i = 0; i < A.length; i++) {
+		if (b[i] == 0)return i + 1;
+	}
+	return A.length+1;
+}`
+
+**p19-2.14** 定义三元组（a,b,c）（a,b,c均为正数）的距离D=|a-b|+|b-c|+|c-a|。给定3个非空整数集合S1、S2和S3，按升序分别存储在3个数组中。请设计一个高效算法。例如S1={-1，0，9}，S2={-25，-10，10，11}，S3={2，9，17，30，41}，则最小距离为2，相应三元组为（9,10,9）。
+
+//不会，略...
+
+
+
+p40-2.01 设计一个递归算法，删除不带头结点的单链表L中所有值为x的结点
+

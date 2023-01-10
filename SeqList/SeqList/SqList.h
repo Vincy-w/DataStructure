@@ -19,3 +19,6 @@ void DelRepeat(SqList& L);//删除所有其值重复的元素
 SqList MergeList(SqList La, SqList Lb);//将两个有序顺序表合并
 void FindX(SqList& L, ElemType x);//查找数值为x的元素
 void LeftMove(SqList& L, int p);//将R中保存的序列循环左移p(0<p<n)个位置
+int M_Search(SqList& A, SqList& B);//中位数
+int Majority(SqList& A);//主元素
+int findPosMin(SqList& A);//最小正整数
